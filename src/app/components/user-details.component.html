@@ -1,0 +1,25 @@
+  <form [formGroup]="profileForm" *ngIf="userIDetails$ | async; else loading" class="container">
+    <mat-form-field>
+      <input matInput placeholder="Name" type="text" formControlName="name">
+    </mat-form-field>
+    <div formArrayName="phoneNumbers">
+      <ng-container *ngFor="let number of phoneNumbers.controls; let i=index">
+        <div class="phone-number">
+          <mat-form-field>
+            <input matInput pattern="[0-9+]+" placeholder="Phone number" type="text" formControlName={{i}}>
+          </mat-form-field>
+          <button (click)="removeNumber(i)" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+      <button (click)="addNumber()" mat-raised-button>Add new number</button>
+    </div>
+    <p>
+      <button mat-raised-button color="primary" type="button" (click)="onSubmit()" [disabled]="!profileForm.valid">Save</button>
+    </p>
+  </form>
+
+  <ng-template #loading>
+    Loading user details...
+  </ng-template>

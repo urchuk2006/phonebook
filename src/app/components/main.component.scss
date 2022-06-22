@@ -1,0 +1,54 @@
+.example-container {
+  position: relative;
+}
+
+.example-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-column-id {
+  max-width: 14px;
+}
+.mat-column-name {
+  max-width: 64px;
+}
+
+.mat-column-actions {
+  max-width: 14px;
+  text-align: end;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 20%;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 14px;
+}
+
+.add-button {
+  align-self: center;
+}
