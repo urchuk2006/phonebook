@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { ApiService } from '../services/api.service';
 import { User } from '../user';
 import {merge, of as observableOf, Subject} from 'rxjs';
-import { catchError, map, startWith, switchMap, takeUntil, debounceTime, tap } from 'rxjs/operators';
+import { map, startWith, switchMap, takeUntil, debounceTime, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { MatRow } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -55,7 +55,13 @@ export class MainComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         return data.users;
       }))
-      .subscribe(data => (this.data = data));
+      .subscribe({
+        next: data => this.data = data,
+        error: () => {
+          this.snackBar.open('Server is not responding. Please, try again later', 'close', {
+            duration: 3000,
+          });
+      }});
   }
 
   ngAfterViewInit(): void {
@@ -74,7 +80,7 @@ export class MainComponent implements OnInit, AfterViewInit, OnDestroy {
           this.paginator.pageIndex,
           this.paginator.pageSize,
           this.search.value
-        ).pipe(catchError(() => observableOf(null)));
+        )
       }),
       map(data => {
         // Flip flag to show that loading has finished.
@@ -87,7 +93,13 @@ export class MainComponent implements OnInit, AfterViewInit, OnDestroy {
       }),
       takeUntil(this.unsubscribe$)
     )
-    .subscribe(data => (this.data = data));
+    .subscribe({
+      next: data => this.data = data,
+      error: () => {
+        this.snackBar.open('Server is not responding. Please, try again later', 'close', {
+          duration: 3000,
+        });
+    }});
   }
 
   openDetails(row: MatRow): void {
